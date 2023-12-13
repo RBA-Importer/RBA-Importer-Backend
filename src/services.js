@@ -6,13 +6,13 @@ const {
   OS_ALERTS_CONVERSION_URL,
   RBA_RUNBOOK_ENDPOINT,
   RBA_API_AUTH_TYPE,
+  SEVERITY_CONVERSION,
   RBA_API_KEY,
   RBA_TRIGGER_ENDPOINT,
   OS_ALERTS_CONVERSION_AUTH,
 } = process.env;
 
 const folder = '/tmp/';
-const severityJSON = require('./config/severities.json');
 
 async function fullImport(filenames) {
   const entries = await parseFilesIntoRunbooks(filenames);
@@ -299,6 +299,9 @@ async function parseTriggers(entries) {
 }
 
 function getSeverity(severityString) {
+  logger.info('Parsing Severity Conversions from environment variable ...');
+  const severityJSON = JSON.parse(SEVERITY_CONVERSION);
+
   for (let entry of Object.entries(severityJSON)) {
     if (entry[1].map((sev) => sev.toLowerCase()).includes(severityString.toLowerCase())) {
       return entry[0];
