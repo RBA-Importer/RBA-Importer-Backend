@@ -3,7 +3,7 @@ const xlsx = require('xlsx');
 const { logger } = require('./logger');
 
 const {
-  OS_ALERTS_CONVERSIONS_URL,
+  OS_ALERTS_CONVERSION_URL,
   RBA_RUNBOOK_ENDPOINT,
   RBA_API_AUTH_TYPE,
   RBA_API_KEY,
@@ -20,7 +20,7 @@ async function fullImport(filenames) {
 
 async function fetchAlertsConversions() {
   logger.info('Fetching converions from Object Server API ...');
-  const { data } = await axios.get(OS_ALERTS_CONVERSIONS_URL, {
+  const { data } = await axios.get(OS_ALERTS_CONVERSION_URL, {
     headers: { Authorization: `Basic ${OS_ALERTS_CONVERSION_AUTH}` },
   });
   logger.info('Successfully fetched  conversions from Object Server API, parsing results ...');

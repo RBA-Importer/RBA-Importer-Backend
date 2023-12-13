@@ -63,26 +63,26 @@ app.post('/api/v1/upload', async (req, res) => {
 
     const { validEntries: validParsedEntries, invalidEntries: invalidParsedEntries } =
       parseFilesIntoRunbooks(temporaryFiles);
-    invalidEntries = [...invalidEntries, ...invalidParsedEntries];
     validEntries = [...validEntries, ...validParsedEntries];
+    invalidEntries = [...invalidEntries, ...invalidParsedEntries];
 
-    // const { validEntries: validCreatedRunbookEntries, invalidCreatedRunbookEntries } =
-    //   await createRunbooks(validParsedEntries);
-    // invalidEntries = [...invalidEntries, ...invalidCreatedRunbookEntries];
+    const { validEntries: validCreatedRunbookEntries, invalidCreatedRunbookEntries } =
+      await createRunbooks(validParsedEntries);
+    invalidEntries = [...invalidEntries, ...invalidCreatedRunbookEntries];
 
-    // const {
-    //   validEntries: validParsedTriggersEntries,
-    //   invalidEntries: invalidParsedTriggersEntries,
-    // } = await parseTriggers(validCreatedRunbookEntries);
+    const {
+      validEntries: validParsedTriggersEntries,
+      invalidEntries: invalidParsedTriggersEntries,
+    } = await parseTriggers(validCreatedRunbookEntries);
 
-    // invalidEntries = [...invalidEntries, ...invalidParsedTriggersEntries];
+    invalidEntries = [...invalidEntries, ...invalidParsedTriggersEntries];
 
-    // const {
-    //   validEntries: validCreatedTriggersEntries,
-    //   invalidEntries: invalidCreatedTriggersEntries,
-    // } = await createTriggers(validParsedTriggersEntries);
+    const {
+      validEntries: validCreatedTriggersEntries,
+      invalidEntries: invalidCreatedTriggersEntries,
+    } = await createTriggers(validParsedTriggersEntries);
 
-    return res.status(200).send({ validEntries, invalidEntries });
+    return res.status(200).send({ validEntries: validCreatedTriggersEntries, invalidEntries });
   } catch (error) {
     logger.info(error);
     return res.status(500).send({ message: 'Internal Server Error' });
