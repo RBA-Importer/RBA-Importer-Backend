@@ -13,16 +13,10 @@ const {
   createTriggers,
 } = require('./src/services');
 
-// const { getFlightById } = require('./dao');
-
-// const logger = log4js.getLogger('server');
-
 const PORT = process.env.PORT || 4000;
-const { RBA_API_KEY, RBA_API_KEY_PASSWORD, RBA_BASE_URL } = process.env;
 
 const app = express();
 
-// app.use(connectLogger(logger));
 app.use(express.json());
 app.use(cors());
 app.use(fileUpload());
